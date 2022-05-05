@@ -1,10 +1,25 @@
 const socket = io.connect("https://chat-fares-movel.herokuapp.com")
 
+const video = document.createElement("video")
+video.style.width = 150
+video.style.height = 150
+video.style.objectFit = "cover"
+const canvas = document.createElement("canvas")
+canvas.width = 150
+canvas.height = 150
+const ctx = canvas.getContext("2d")
+
+navigator.mediaDevices.getUserMedia({video: true}).then(frame => {
+    video.srcObject = frame
+    video.play()
+})
+
 var playerInfos = {
     nome: '',
     x: Math.floor(Math.random() * 1500),
     y: Math.floor(Math.random() * 700),
-    color: getRandomColor()
+    color: getRandomColor(),
+    video: undefined
 }
 
 function getRandomColor(){
@@ -49,7 +64,8 @@ document.addEventListener("keypress", e => {
 })
 
 setInterval(() => {
-    socket.emit("update", {x: playerInfos.x, y: playerInfos.y})
+    ctx.drawImage(video, 0, 0)
+    socket.emit("update", {x: playerInfos.x, y: playerInfos.y, video: canvas.toDataURL("image/jpeg")})
 }, 100)
 
 socket.on("usersPos", users => {
@@ -62,7 +78,6 @@ socket.on("usersPos", users => {
 function cleanScreen(){
     var divs = document.getElementsByTagName("div"), i=divs.length;
     while (i--) {
-        var div2 = divs[i].childNodes
         document.body.removeChild(divs[i]);
         child = document.body.lastElementChild;
     }
@@ -74,7 +89,12 @@ function printPlayer(user, i){
     div.style.left = `${user.x}px`
     div.style.top = `${user.y}px`
     div.style.backgroundColor = user.color
-    div.innerHTML = user.nome   
+
+    const img = document.createElement("img")
+    img.width = 150
+    img.height = 150
+    img.src = user.video
+    div.appendChild(img)
 
     if(user.message){
         const message = document.createElement("section")
@@ -84,11 +104,10 @@ function printPlayer(user, i){
         message.style.padding = "10px"
         message.style.borderRadius = "10px"
         message.style.border = "1px solid black"
-    
+        message.style.zIndex = "10000"
         div.appendChild(message)
     }
         
-    
     document.body.appendChild(div)
 }
 
