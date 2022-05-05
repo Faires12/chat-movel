@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jogo</title>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        #input{
+            width: 90%;
+            height: 50px;
+            font-size: 20px;
+            padding-left: 10px;
+        }
+
+        .dive{
+            position: absolute;
+            display: flex;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+        }
+
+        .dive button{
+            flex-grow: 1;
+        }
+
+        .player{
+            position: absolute;
+            width: 150px;
+            height: 150px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 20px;
+        }
+    </style>
+</head>
+<body>
+    <section class="dive" id="mensagem">
+        <input type="text" id="input">
+        <button onclick="sendMessage()">Enviar</button>
+    </section>
+
+    <script src="https://cdn.socket.io/4.5.0/socket.io.min.js" integrity="sha384-7EyYLQZgWBi67fBtVxw60/OWl1kjsfrPFcaU0pp0nAh+i8FD068QogUvg85Ewy1k" crossorigin="anonymous"></script>
+
+
+    <script src="main.js"></script>
+</body>
+</html>
