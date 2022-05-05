@@ -41,7 +41,7 @@ playerInfos.nome = nome
 socket.emit("login", playerInfos)
 
 document.addEventListener("keypress", e => {
-    if(document.activeElement === document.getElementById("input"))
+    if(document.activeElement === document.getElementById("input") && e.key !== "Enter")
         return
 
     if(e.key === "a")
@@ -52,6 +52,8 @@ document.addEventListener("keypress", e => {
         playerInfos.y -= 20
     if(e.key === "s")
         playerInfos.y += 20
+    if(e.key === "Enter")
+        sendMessage()
 
     if(playerInfos.x < 0)
         playerInfos.x = 0
