@@ -1,15 +1,15 @@
 const socket = io.connect("https://chat-fares-movel.herokuapp.com")
 
 const video = document.createElement("video")
-video.style.width = 150
-video.style.height = 150
-video.style.objectFit = "cover"
 const canvas = document.createElement("canvas")
 canvas.width = 150
 canvas.height = 150
 const ctx = canvas.getContext("2d")
 
-navigator.mediaDevices.getUserMedia({video: true}).then(frame => {
+navigator.mediaDevices.getUserMedia({video: {
+    width: 150,
+    height: 150
+}}).then(frame => {
     video.srcObject = frame
     video.play()
 })
@@ -93,6 +93,7 @@ function printPlayer(user, i){
     const img = document.createElement("img")
     img.width = 150
     img.height = 150
+    
     img.src = user.video
     div.appendChild(img)
 
