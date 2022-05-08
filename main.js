@@ -28,10 +28,10 @@ navigator.mediaDevices.getUserMedia({audio: true}).then( function(stream) {
             socket.emit("getAudio", chunks)
         }
         recorder.start();
-        setTimeout(()=> recorder.stop(), 400);    
+        setTimeout(()=> recorder.stop(), 1000);    
     }
 
-    setInterval(record_and_send, 400);
+    setInterval(record_and_send, 1000);
 }).catch(() => permitiuAudio = false);
 
 var playerInfos = {
