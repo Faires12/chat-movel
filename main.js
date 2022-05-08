@@ -1,4 +1,4 @@
-const socket = io.connect("http://localhost:3000")
+const socket = io.connect("https://chat-fares-movel.herokuapp.com")
 
 const video = document.createElement("video")
 const canvas = document.createElement("canvas")
