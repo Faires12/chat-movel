@@ -1,4 +1,4 @@
-const socket = io.connect("https://chat-fares-movel.herokuapp.com/")
+const socket = io.connect("http://localhost:3000")
 
 const video = document.createElement("video")
 const canvas = document.createElement("canvas")
@@ -25,15 +25,13 @@ navigator.mediaDevices.getUserMedia({audio: true}).then( function(stream) {
         const chunks = [];
         recorder.ondataavailable = e => chunks.push(e.data);
         recorder.onstop = async (e) => {
-            var blob = new Blob(chunks,  { 'type' : 'audio/ogg; ' });
-            audio = await blobToBase64(blob)
-            socket.emit("getAudio", audio)
+            socket.emit("getAudio", chunks)
         }
         recorder.start();
-        setTimeout(()=> recorder.stop(), 350);    
+        setTimeout(()=> recorder.stop(), 400);    
     }
 
-    setInterval(record_and_send, 350);
+    setInterval(record_and_send, 400);
 }).catch(() => permitiuAudio = false);
 
 var playerInfos = {
@@ -116,8 +114,10 @@ socket.on("usersPos", users => {
     }
 })
 
-socket.on("audio", audio => {
-    const audioPlay = new Audio(audio)
+socket.on("audio", async (audio) => {
+    console.log(audio)
+
+    const audioPlay = new Audio(await blobToBase64(new Blob(audio, {type: 'audio/ogg'})))
     audioPlay.play()
 })
 
